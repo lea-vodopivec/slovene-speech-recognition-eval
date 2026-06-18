@@ -1,89 +1,121 @@
-# Comparative Evaluation of ASR Systems for Slovenian
+# Primerjalna evalvacija sistemov ASR za slovenski govor
 
-This repository contains a corpus, scripts and evaluation code used to compare two speech-to-text systems on Slovenian speech: OpenAI Whisper (large) and MistralAI / Voxtral Small 24B.
+Ta repozitorij vsebuje govorni korpus, skripte in evalvacijsko kodo za primerjavo dveh sistemov za samodejno razpoznavanje govora na slovenskih govornih posnetkih:
 
-**Project Goal:** Evaluate lexical and semantic transcription quality for Slovenian (low-resource language) and compare a classic transformer ASR (Whisper) with a multimodal LLM-based STT (Voxtral Small 24B).
+- OpenAI Whisper (large)
+- MistralAI Voxtral Small 24B
 
-**Contents**
-- **Files & scripts**
-  - [preprocess_audio.py](preprocess_audio.py) — convert and normalize audio to 16 kHz mono WAVs.
-  - [transcribe_whisper.py](transcribe_whisper.py) — batch transcription using Whisper (large).
-  - [transcribe_voxtral.py](transcribe_voxtral.py) — batch transcription using Voxtral Small 24B (Transformers/PyTorch).
-  - [evaluate_transcriptions.py](evaluate_transcriptions.py) — computes evaluation metrics comparing automatic transcripts to reference transcripts.
-  - [requirements.txt](requirements.txt) — Python dependencies.
+## Cilj projekta
 
-- **Data directories**
-  - `posnetki/` — original audio files (M4A AAC, stereo, 48 kHz).
-  - `posnetki_preprocessed/` — preprocessed WAV (PCM, 16 kHz, mono) used as model inputs.
-  - `original-transkript/` — human reference transcripts (UTF-8 TXT files: besedilo1.txt … besedilo27.txt).
-  - `transkripcije/` — generated transcripts (files named e.g. transkripcija1_whisper.txt, transkripcija1_voxtral.txt).
-  - `rezultati/` — evaluation outputs, summary CSVs and report.
+Cilj projekta je ovrednotiti kakovost samodejnih transkripcij slovenskega govora kot jezika z manj razpoložljivimi jezikovnimi viri ter primerjati klasični transformer model ASR (Whisper) z multimodalnim jezikovnim modelom za pretvorbo govora v besedilo (Voxtral Small 24B).
 
-**Setup**
-1. Create and activate a Python 3.10+ virtual environment.
+Evalvacija vključuje primerjavo na leksikalni, semantični in jezikoslovni ravni.
+
+---
+
+# Vsebina repozitorija
+
+## Datoteke in skripte
+
+- `preprocess_audio.py` — pretvorba in priprava zvočnih datotek v format WAV (16 kHz, mono).
+- `transcribe_whisper.py` — transkripcija z modelom Whisper (large).
+- `transcribe_voxtral.py` — transkripcija z modelom Voxtral Small 24B (Transformers/PyTorch).
+- `evaluate_transcriptions.py` — izračun evalvacijskih metrik in primerjava samodejnih transkriptov z referenčnimi transkripti.
+- `requirements.txt` — seznam potrebnih Python knjižnic.
+
+---
+
+# Struktura podatkov
+
+- `posnetki/` — originalne zvočne datoteke (M4A AAC, stereo, 48 kHz). Zaradi varovanja zasebnosti niso javno dostopne v repozitoriju. Za raziskovalne namene so dostopne na zahtevo: **prevajanje.lv@gmail.com**.
+
+- `posnetki_preprocessed/` — predobdelane zvočne datoteke WAV (PCM, 16 kHz, mono), uporabljene kot vhod za modele.
+
+- `original-transkript/` — referenčni človeški transkripti (UTF-8 TXT datoteke: `besedilo1.txt` … `besedilo27.txt`).
+
+- `transkripcije/` — generirane transkripcije modelov (npr. `transkripcija1_whisper.txt`, `transkripcija1_voxtral.txt`).
+
+- `rezultati/` — izhodne evalvacijske datoteke, vizualizacije, povzetki v CSV-formatu in poročilo.
+
+---
+
+# Namestitev
+
+## 1. Ustvari in aktiviraj virtualno okolje Python 3.10 ali novejše
 
 ```bash
 python -m venv .venv
-source .venv/Scripts/activate    # Windows PowerShell: .venv\Scripts\Activate.ps1
+source .venv/Scripts/activate 
 pip install -r requirements.txt
 ```
 
-2. Ensure `ffmpeg` is installed and available in PATH (used by preprocessing scripts).
+## 2. Prepričaj se, da je `ffmpeg` nameščen in dostopen v sistemski poti PATH. (uporablja se za predobdelavo zvočnih datotek).
 
-Usage
-1. Preprocess audio (creates WAV files in `posnetki_preprocessed/`):
+Uporaba
+1. Predobdelava zvoka (ustvari WAV datoteke v mapi `posnetki_preprocessed/`):
 
 ```bash
 python preprocess_audio.py
 ```
 
-2. Generate transcripts with Whisper:
+## 3. Generiranje transkripcij z Whisper:
 
 ```bash
 python transcribe_whisper.py
 ```
 
-3. Generate transcripts with Voxtral:
+## 4. Generiranje transkripcij z Voxtral:
 
 ```bash
 python transcribe_voxtral.py
 ```
 
-4. Evaluate transcripts (produces CSVs and `evaluation_report.md` in `rezultati/`):
+## 5. Evalvacija transkripcij (ustvari CSV rezultate in poročilo `evaluation_report.md` v mapi `rezultati/`):
 
 ```bash
 python evaluate_transcriptions.py
 ```
 
-Evaluation metrics
-- WER (Word Error Rate)
-- CER (Character Error Rate)
-- SER (Sentence / Semantic Error Rate) — sentence-level semantic similarity using a multilingual semantic model and cosine similarity (thresholding).
-- BLEU — n-gram overlap score.
-- WIP / WIL — Word Information Preserved / Lost.
-- NER accuracy — named-entity overlap (spaCy multilingual model).
-- Morphological accuracy — lemma overlap using `classla` Slovenian pipeline.
-- Punctuation accuracy.
+# Evalvacijske metrike
+- WER (Word Error Rate) — stopnja napak na ravni besed.
+- CER (Character Error Rate) — stopnja napak na ravni znakov.
+- SER (Semantic Error Rate) — semantična podobnost na ravni povedi z uporabo večjezičnega semantičnega modela in kosinusne podobnosti.
+- BLEU — mera prekrivanja n-gramov.
+- WIP / WIL (Word Information Preserved / Lost) — delež ohranjenih oziroma izgubljenih informacij.
+- NER (Named Entity Recognition) — natančnost prepoznave imenovanih entitet z uporabo večjezičnega modela spaCy.
+- Morfološka natančnost — primerjava lem z uporabo slovenskega jezikovnega cevovoda `classla`.
+- Natančnost ločil — primerjava pravilnosti vstavljanja ločil.
 
-Dataset & recording conditions
-- 27 single-speaker read speech recordings recorded on 2026-05-01 in a quiet home environment using a standard built-in microphone. Files are short (≈51–66 s), stereo M4A at 48 kHz.
-- The speaker is a single female (25 y/o) from Nova Gorica (Primorska region). The corpus covers multiple registers (literary, journalistic, legal, instructional, tourist, conversational, scientific, etc.).
-- Reference transcripts are orthographic and do not annotate paralinguistic phenomena (hesitations, nonverbal sounds).
 
-Key findings (summary)
-- Both systems perform comparably overall; neither dominates across all metrics.
-- Voxtral shows slightly better lexical accuracy (lower WER and CER and higher NER in the evaluated corpus).
-- Whisper shows stronger semantic preservation (lower SER, higher semantic similarity) and slightly better punctuation accuracy.
-- Differences are generally small (under ~10 percentage points); per-file variability depends strongly on register and lexical/phonetic difficulty.
+# Podatkovni korpus in pogoji snemanja
+- Korpus vsebuje 27 govornih posnetkov enega govorca.
+- Značilnosti posnetkov: snemanje je potekalo v tihem domačem okolju, uporabljen je bil običajen vgrajeni mikrofon, izvorni format je M4A AAC, stereo zvok, frekvenca vzorčenja 48 kHz, dolžina posameznega posnetka je približno 51–66 sekund.
+- Korpus vključuje različne jezikovne registre: literarni, novinarski, obvestilni, strokovni, pravni, kuharski, turistični, spletni interakcijski in poljudnoznanstveni.
+- Referenčni transkripti so ortografski in ne vsebujejo anotacije paralingvističnih pojavov, kot so mašila, premori in neverbalni zvoki.
 
-Notes & reproducibility
-- The repository scripts assume local GPU availability for model inference (used in the original experiments). If running on CPU, expect slower execution and possible memory limitations.
-- Preprocessing applies only resampling and channel mixing (no denoising or normalization) to keep inputs comparable across systems.
 
-Acknowledgements & references
-- The experimental design and evaluation metrics follow common ASR benchmarking practices (WER/CER) and augment them with semantic and linguistic metrics to better reflect usefulness for downstream tasks.
+# Povzetek rezultatov
+- Oba sistema dosegata primerljivo splošno uspešnost.
+- Noben model ne prevlada pri vseh evalvacijskih merah.
+- Voxtral dosega nekoliko boljšo leksikalno natančnost (nižji WER in CER ter višjo uspešnost pri prepoznavi imenovanih entitet).
+- Whisper kaže boljše ohranjanje semantičnega pomena in nekoliko boljšo natančnost ločil.
+- Razlike med modeloma so večinoma majhne in so odvisne od registra besedila ter fonetične in leksikalne zahtevnosti posnetkov.
 
-License
-- Add your preferred license here (e.g. MIT) or keep as proprietary for private use.
 
-If you want, I can also: add example commands for running single-file transcription, create a minimal `README-SUMMARY.md` for the repo front page, or update `requirements.txt` with exact versions used for the experiments.
+# Reproducibilnost
+- Skripte predvidevajo izvajanje modelov z uporabo grafičnega procesorja (GPU).
+- Pri izvajanju na procesorju (CPU) je izvajanje počasnejše in lahko pride do omejitev pomnilnika.
+- Predobdelava vključuje samo spremembo frekvence vzorčenja in pretvorbo stereo → mono.
+- Odstranjevanje šuma in normalizacija glasnosti nista uporabljena, da ostanejo vhodni podatki primerljivi med sistemi.
+
+
+# Licenca
+
+Izvorna koda v tem repozitoriju je namenjena raziskovalni in izobraževalni uporabi. 
+
+Govorni posnetki niso javno objavljeni zaradi varovanja zasebnosti. Dostop do zvočnih podatkov je mogoč izključno za raziskovalne namene in na podlagi predhodnega dogovora.
+
+Pri uporabi tega korpusa ali rezultatov raziskave je potrebno ustrezno navesti vir in namen uporabe podatkov.
+
+Za dostop do zvočnih posnetkov kontaktirajte:
+**prevajanje.lv@gmail.com**
