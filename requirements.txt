@@ -1,0 +1,15 @@
+accelerate>=0.33.0
+jiwer>=3.0.4
+matplotlib>=3.9.0
+mistral-common[audio]>=1.0.0
+numpy==1.26.4
+pandas>=2.2.0
+scipy>=1.13.0
+seaborn>=0.13.2
+sentence-transformers>=3.0.0
+spacy>=3.7.5
+torch>=2.4.0
+transformers>=4.44.0
+openai-whisper>=20231117
+setuptools>=70.0.0
+wheel>=0.43.0
