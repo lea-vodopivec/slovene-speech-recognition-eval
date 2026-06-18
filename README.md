@@ -25,7 +25,7 @@ Evalvacija vključuje primerjavo na leksikalni, semantični in jezikoslovni ravn
 
 ---
 
-# Struktura podatkov
+## Struktura podatkov
 
 - `posnetki/` — originalne zvočne datoteke (M4A AAC, stereo, 48 kHz). Zaradi varovanja zasebnosti niso javno dostopne v repozitoriju. Za raziskovalne namene so dostopne na zahtevo: **prevajanje.lv@gmail.com**.
 
@@ -39,9 +39,9 @@ Evalvacija vključuje primerjavo na leksikalni, semantični in jezikoslovni ravn
 
 ---
 
-# Namestitev
+## Namestitev
 
-## 1. Ustvari in aktiviraj virtualno okolje Python 3.10 ali novejše
+1. Ustvari in aktiviraj virtualno okolje Python 3.10 ali novejše
 
 ```bash
 python -m venv .venv
@@ -49,28 +49,28 @@ source .venv/Scripts/activate
 pip install -r requirements.txt
 ```
 
-## 2. Prepričaj se, da je `ffmpeg` nameščen in dostopen v sistemski poti PATH. (uporablja se za predobdelavo zvočnih datotek).
+2. Prepričaj se, da je `ffmpeg` nameščen in dostopen v sistemski poti PATH. (uporablja se za predobdelavo zvočnih datotek).
 
-Uporaba
+Uporaba:
 1. Predobdelava zvoka (ustvari WAV datoteke v mapi `posnetki_preprocessed/`):
 
 ```bash
 python preprocess_audio.py
 ```
 
-## 3. Generiranje transkripcij z Whisper:
+2. Generiranje transkripcij z Whisper:
 
 ```bash
 python transcribe_whisper.py
 ```
 
-## 4. Generiranje transkripcij z Voxtral:
+3. Generiranje transkripcij z Voxtral:
 
 ```bash
 python transcribe_voxtral.py
 ```
 
-## 5. Evalvacija transkripcij (ustvari CSV rezultate in poročilo `evaluation_report.md` v mapi `rezultati/`):
+4. Evalvacija transkripcij (ustvari CSV rezultate in poročilo `evaluation_report.md` v mapi `rezultati/`):
 
 ```bash
 python evaluate_transcriptions.py
