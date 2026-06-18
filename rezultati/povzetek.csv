@@ -1,0 +1,3 @@
+model,BLEU,CER (%),Deletions,Insertions,MER (%),Morph errors,NER (%),Name errors,Punct (%),SER (%),Sem. similarity,Substitutions,WER (%),WIL (%),WIP (%),Word Accuracy (%),audio_duration_s
+Voxtral,77.841,3.433,0.852,1.667,11.64,3.667,78.384,1.481,91.078,52.297,0.656,12.519,11.857,19.921,80.079,88.143,60.481
+Whisper,78.185,4.389,1.148,4.259,12.018,2.407,74.386,1.593,92.039,43.181,0.729,10.333,12.594,19.142,80.858,87.406,60.481
